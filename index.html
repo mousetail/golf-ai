@@ -12,12 +12,31 @@
                 'vyxal': '⊞×÷!$%&\'*+,-:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^_`abcdefghijlmnopqrstuvwxyz◲⨥⨪∑Π⇧⇩∪∩⊍⦰«»ƓɠĠġ⌈⌊⊖⌽£¥↜↝↺↻≜⎀⊢⊣ɦʈᐐᐵᐕ½ƶƵ⁰¹²³⅟※⇄⧖‰≛ℭ℈⦷Ϣ≤≥≠≡•±†⎙γ≓Ͼᴥℳ℗↸⍢ℂ⌹⏚↯⊠⚅æ␣¶★ᑂ∻√⍰◌δ☷σ⎶⊆⍨⎘ꜝ≈≊κ‹›ʀʁɾ▲ṬṪ⤻⤺Ŀ¬∧∨Łḧ¤⧢①②③④⑤⑥⑦⑧„”“#¿#,#?#C#Q#X#c#w#x#↸k⩔k+k-k0k1k2k3k4k5k6k<k>kAkBkDkFkHkLkNkPkRkVkYkZk^kakdkekgkhkikkklkokpkrkvkykzk◲k∪k∩kƓkɠkĠkġk⎀k½k⁰k²k³k•k±kγkℂk⌹kæk◌k☷k⎶k⎘k≈kṬk¤k①k②k③k④k⑤k⑥k⑦k⑧Þ0ÞOÞRÞTÞXÞiÞoÞ∩Þ⊍Þ⦰Þ↻Þ⎀ÞƵÞ⁰Þ¹Þ⅟Þ◌Þ⎶Þ¤∆<∆A∆C∆G∆H∆I∆L∆R∆S∆T∆c∆d∆q∆r∆s∆t∆⊍∆⎀∆ʈ∆ℭ∆⌹∆↯∆æ∆Ṭ∆¬∆∧∆∨∆⧢øAø◲',
                 'uiua': '"◌∘¬±¯⌵√∿⌊⌈⁅≠≤≥×÷◿∨ⁿₙ↧↥∠ℂ⧻△⇡⊢⊣⇌♭¤⋯⍉⍆⍏⍖⊚⊛◴◰□⋕≍⊟⊂⊏⊡↯↙↘↻⤸◫▽⌕⦷∈⊗∧∵≡⍚⊞⧅⧈⍥⊕⊜◇⋅⊙𝄐⟜⤙⤚⊸◠◡˙˜∩⌅°⌝⍜⊃⊓⍢⬚⨬⍣⍩⍤⚂ηπτ∞∂∫←↚‼"',
                 'apl': '+-×÷⌈⌊*!|⍟○⌹⊥⊤?~∧∨⍲⍱<>≤≥=≠≡≢⍴,⍪⌽⊖⍉↑↓⊂⊆≡∊⌷⊃/⌿\\⍀~≠∪∩⊣⊢⍳⍸∊⍷⍋⍒¨⍨⍣.∘/\\⌿⍀⌸⍤⍥⌺@⍠¯←⍬⍎⍕⋄⍝∇⍺⍵'
-            }
+            };
+
+            const hardcoded = {
+                'vyxal': {
+                    'hello world': 'kH',
+                    'factorial': '¡',
+                    'number is triangular': 'ɾ¦c', // https://codegolf.stackexchange.com/a/249086
+                },
+                'uiua': {
+                    'hello world': '"Hello, World!"',
+                    'factorial': '/×+1⇡', // I'm sure there is probably some shorter way to do this but I'm no uiua expert
+                    'number is triangular': '/+=\\+⇡.', // same as above
+                },
+                'apl': {
+                    'hello world': "'Hello, World!'",
+                    'factorial': '!',
+                    'number is triangular': '⊢∊+\\∘⍳', // https://codegolf.stackexchange.com/a/122498
+                },
+            };
 
             async function submit() {
                 const language = document.getElementById('language-select').value;
 
                 const codepage = codePages[language];
+                const problem = document.getElementById('for').value.toLowerCase().replace(/[^a-z]+/g, ' ');
                 const progress = document.getElementById('progress');
                 const result = document.getElementById('result');
                 const byteCount = document.getElementById('byte-count');
@@ -26,13 +45,23 @@
 
                 progress.removeAttribute('value');
 
-                const length = Math.floor(Math.random() * Math.random() * Math.random() * 100) + 5;
+                let length = Math.floor(Math.random() * Math.random() * Math.random() * 100) + 5;
                 console.log(length);
+
+                let match = "";
+                for (const [key, prog] of Object.entries(hardcoded[language])) {
+                    console.log(key, prog, problem.includes(key), problem);
+                    if (problem.includes(key)) {
+                        match = prog;
+                        length = prog.length;
+                        break;
+                    }
+                }
 
                 for (let i=0; i<length; i++) {
                     await sleep(Math.random() * Math.random() * Math.random() * 4000);
 
-                    const char = codepage[Math.floor(Math.random() * codepage.length)];
+                    const char = match[i] ? match[i] : codepage[Math.floor(Math.random() * codepage.length)];
                     result.textContent += char;
                 }
 
@@ -126,7 +155,7 @@
 
         <label for="query-ta">Describe the problem:</label>
         <br>
-        <textarea id="for">Sort an array by relative primeness</textarea>
+        <textarea id="for">Check if given number is triangular</textarea>
         <br>
 
         <div class="vw">
