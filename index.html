@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Golf AI - The Premium Golf AI Platform</title>
+        <script>
+            const sleep = (ms) => new Promise((resolve, _reject) => {
+                setTimeout(resolve, ms)
+            });
+
+            const codePages = {
+                'vyxal': '⊞×÷!$%&\'*+,-:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^_`abcdefghijlmnopqrstuvwxyz◲⨥⨪∑Π⇧⇩∪∩⊍⦰«»ƓɠĠġ⌈⌊⊖⌽£¥↜↝↺↻≜⎀⊢⊣ɦʈᐐᐵᐕ½ƶƵ⁰¹²³⅟※⇄⧖‰≛ℭ℈⦷Ϣ≤≥≠≡•±†⎙γ≓Ͼᴥℳ℗↸⍢ℂ⌹⏚↯⊠⚅æ␣¶★ᑂ∻√⍰◌δ☷σ⎶⊆⍨⎘ꜝ≈≊κ‹›ʀʁɾ▲ṬṪ⤻⤺Ŀ¬∧∨Łḧ¤⧢①②③④⑤⑥⑦⑧„”“#¿#,#?#C#Q#X#c#w#x#↸k⩔k+k-k0k1k2k3k4k5k6k<k>kAkBkDkFkHkLkNkPkRkVkYkZk^kakdkekgkhkikkklkokpkrkvkykzk◲k∪k∩kƓkɠkĠkġk⎀k½k⁰k²k³k•k±kγkℂk⌹kæk◌k☷k⎶k⎘k≈kṬk¤k①k②k③k④k⑤k⑥k⑦k⑧Þ0ÞOÞRÞTÞXÞiÞoÞ∩Þ⊍Þ⦰Þ↻Þ⎀ÞƵÞ⁰Þ¹Þ⅟Þ◌Þ⎶Þ¤∆<∆A∆C∆G∆H∆I∆L∆R∆S∆T∆c∆d∆q∆r∆s∆t∆⊍∆⎀∆ʈ∆ℭ∆⌹∆↯∆æ∆Ṭ∆¬∆∧∆∨∆⧢øAø◲',
+                'uiua': '"◌∘¬±¯⌵√∿⌊⌈⁅≠≤≥×÷◿∨ⁿₙ↧↥∠ℂ⧻△⇡⊢⊣⇌♭¤⋯⍉⍆⍏⍖⊚⊛◴◰□⋕≍⊟⊂⊏⊡↯↙↘↻⤸◫▽⌕⦷∈⊗∧∵≡⍚⊞⧅⧈⍥⊕⊜◇⋅⊙𝄐⟜⤙⤚⊸◠◡˙˜∩⌅°⌝⍜⊃⊓⍢⬚⨬⍣⍩⍤⚂ηπτ∞∂∫←↚‼"',
+                'apl': '+-×÷⌈⌊*!|⍟○⌹⊥⊤?~∧∨⍲⍱<>≤≥=≠≡≢⍴,⍪⌽⊖⍉↑↓⊂⊆≡∊⌷⊃/⌿\\⍀~≠∪∩⊣⊢⍳⍸∊⍷⍋⍒¨⍨⍣.∘/\\⌿⍀⌸⍤⍥⌺@⍠¯←⍬⍎⍕⋄⍝∇⍺⍵'
+            }
+
+            async function submit() {
+                const language = document.getElementById('language-select').value;
+
+                const codepage = codePages[language];
+                const progress = document.getElementById('progress');
+                const result = document.getElementById('result');
+                const byteCount = document.getElementById('byte-count');
+                result.textContent = '';
+                byteCount.replaceChildren();
+
+                progress.removeAttribute('value');
+
+                const length = Math.floor(Math.random() * Math.random() * Math.random() * 100) + 5;
+                console.log(length);
+
+                for (let i=0; i<length; i++) {
+                    await sleep(Math.random() * Math.random() * Math.random() * 4000);
+
+                    const char = codepage[Math.floor(Math.random() * codepage.length)];
+                    result.textContent += char;
+                }
+
+                byteCount.textContent = `All tests passed, ${length} bytes. `;
+
+                const link = document.createElement('a');
+                link.href='#';
+                link.textContent = 'Copy Markdown';
+
+                link.addEventListener('click', (ev)=>{
+                    ev.preventDefault();
+
+                    navigator.clipboard.writeText(`# ${language}, ${length} bytes\n\`\`\`\n${result.textContent}\n\`\`\`\nGenerated with help of [Golf AI](https://mousetail.github.io/golf-ai)`)
+                })
+
+                byteCount.appendChild(link);
+
+                progress.setAttribute('value', 0);
+                
+            }
+        </script>
+        <style>
+            @media (prefers-color-scheme: dark) {
+                html {
+                    filter: invert(1);
+                }
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: sans-serif;
+            }
+
+            textarea {
+                width: calc(100% - 1rem);
+                height: 20rem;
+                border-bottom: 0.5rem;
+            }
+
+            button {
+                padding: 1rem;
+                border: 4px solid grey;
+                background-color: black;
+                color: white;
+                border-radius: 1rem;
+
+                &:hover {
+                    border-color: white;
+                }
+            }
+
+            select {
+                padding: 1rem;
+                border: 4px solid grey;
+                background-color: white;
+                border-radius: 1rem;
+            }
+
+            .vw {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            progress {
+                width: calc(100% - 1rem);
+            }
+
+            .result {
+                padding: 1rem;
+                height: 15rem;
+                width: calc(100% - 1rem)
+            }
+
+            textarea, .result {
+                border: 2px solid grey;
+                border-radius: 1rem;
+                padding: 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Golf AI - The best AI-powered auto-golfer</h2>
+
+        <label for="query-ta">Describe the problem:</label>
+        <br>
+        <textarea id="for">Sort an array by relative primeness</textarea>
+        <br>
+
+        <div class="vw">
+            <label for="language-select">Language:</label>
+            <select id="language-select">
+                <option value="vyxal">Vyxal</option>
+                <option value="apl">APL</option>
+                <option value="uiua">Uiua</option>
+            </select>
+            <button onclick="submit()">Submit!</button>
+        </div>
+
+        <hr>
+        <progress value="0" id="progress"></progress>
+
+        <hr>
+        <br>
+        <pre class="result" id="result">
+
+        </pre>
+
+        <h3 id="byte-count">
+
+        </h3>
+
+        Want to find interesting code golf challenges? Consider visiting <a href="https://byte-heist.com">Byte Heist</a>.
+    </body>
+</html>
